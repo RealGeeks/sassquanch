@@ -1,0 +1,52 @@
+{
+  "name": "@realgeeks/sassquanch",
+  "version": "0.0.1",
+  "description": "Squanch style dependencies and combine into one flat file",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel index.js --out-dir dist",
+    "watch": "babel index.js --watch --out-dir dist",
+    "pretty": "prettier-eslint --write \"./src/**/*.js\" \"index.js\"",
+    "prepare": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RealGeeks/sassquanch.git"
+  },
+  "author": "Jorge Valdez <jorge@realgeeks.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RealGeeks/sassquanch/issues"
+  },
+  "homepage": "https://github.com/RealGeeks/sassquanch#readme",
+  "lint-staged": {
+    "index.js": [
+      "npm run pretty",
+      "git add"
+    ],
+    "src/**/*.js": [
+      "npm run pretty",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "babel-preset-airbnb": "^3.0.1",
+    "eslint": "^5.8.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "husky": "^1.1.3",
+    "lint-staged": "^8.0.4",
+    "prettier-eslint-cli": "^4.7.1"
+  },
+  "dependencies": {
+    "@realgeeks/sass-flatten": "^0.2.9"
+  }
+}
