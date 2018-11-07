@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Squanch style dependencies and combine into one flat file",
   "main": "dist/bin.js",
+  "bin": {
+    "sassquanch": "dist/bin.js"
+  },
   "scripts": {
     "start": "node dist/bin.js",
     "start:dev": "node dist/dev/bin.js",
