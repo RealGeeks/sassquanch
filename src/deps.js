@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import { promisify } from 'util';
+import { DIE, fileExists } from './util';
 
-import { DIE, fileExists } from './cli';
+const readFile = promisify(fs.readFile);
 
 export const readPackage = filePath => JSON.parse(fs.readFileSync(filePath));
 export const getStyleDependencies = (packageInfo) => {
@@ -15,7 +17,7 @@ export const getStyleDependencies = (packageInfo) => {
   return packageInfo.styleDependencies;
 };
 
-const getDependencyResolver = nodeModulesDir => (dep) => {
+const createDependencyResolver = nodeModulesDir => (dep) => {
   // attempt to resolve the path
   const resolvedPath = path.resolve(nodeModulesDir, dep.package, ...dep.path.split('/'));
 
@@ -38,7 +40,7 @@ const getDependencyResolver = nodeModulesDir => (dep) => {
 
 export const resolveStyleDependencies = (styleDeps, packageFilePath) => {
   const nodeModulesDir = path.join(path.dirname(packageFilePath), 'node_modules');
-  const resolveDependencyPath = getDependencyResolver(nodeModulesDir);
+  const resolveDependencyPath = createDependencyResolver(nodeModulesDir);
 
   // For each dep, we will resolve the listed style path
   return styleDeps.reduce(
@@ -46,3 +48,5 @@ export const resolveStyleDependencies = (styleDeps, packageFilePath) => {
     [],
   );
 };
+
+export const loadDependencies = async resolvedDeps => Promise.all(resolvedDeps.map(dep => readFile(dep.path, { encoding: 'utf-8' })));
