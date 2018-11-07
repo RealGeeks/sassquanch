@@ -1,8 +1,8 @@
 import program from 'commander';
 import { accessSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 
-const fileExists = (filePath) => {
+export const fileExists = (filePath) => {
   try {
     accessSync(filePath);
     return true;
@@ -23,10 +23,11 @@ const fileExists = (filePath) => {
 export const DIE = (...errMsgs) => {
   const err = errMsgs.reduce((finalErr, message) => `${finalErr}\n${message}`);
   console.error(err);
-  process.exit(1);
+  process.exit(0);
 };
 
 const CLI = program
+  .name('sassquanch')
   .version('0.1.0')
   .usage('[options] <output-path>')
   .option(
@@ -43,7 +44,9 @@ const CLI = program
 export const parseOpts = () => {
   CLI.parse(process.argv);
 
-  const packagePath = CLI.packagePath || join(__dirname, 'package.json');
+  const packagePath = CLI.packagePath
+    ? resolve(CLI.packagePath)
+    : resolve(join('.', 'package.json'));
   const packageExists = fileExists(packagePath);
 
   if (!packageExists) {
@@ -53,7 +56,8 @@ export const parseOpts = () => {
     );
   }
 
-  const outputPath = CLI.outputPath || join(__dirname, 'sassquanch.scss');
+  const givenOutputPath = CLI.args && CLI.args.length > 1;
+  const outputPath = givenOutputPath ? resolve(CLI.args[0]) : resolve(join('.', 'deps.scss'));
 
   if (!outputPath) {
     DIE('Please provide a valid output path');
