@@ -4,7 +4,7 @@ import { fileExists, DIE } from './util';
 
 export const CLI = program
   .name('sassquanch')
-  .version('0.0.1')
+  .version('0.0.2')
   .usage('[options] <output-path>')
   .option(
     '-p, --package-path <path>',
