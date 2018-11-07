@@ -6,7 +6,8 @@ import { DIE, fileExists } from './util';
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
 
-export const readPackage = filePath => JSON.parse(fs.readFileSync(filePath));
+export const readPackage = ({ packagePath }) => JSON.parse(fs.readFileSync(packagePath));
+
 export const getStyleDependencies = (packageInfo) => {
   if (!packageInfo.styleDependencies) {
     return DIE(
@@ -39,8 +40,8 @@ const createDependencyResolver = nodeModulesDir => (dep) => {
   };
 };
 
-export const resolveStyleDependencies = (styleDeps, packageFilePath) => {
-  const nodeModulesDir = path.join(path.dirname(packageFilePath), 'node_modules');
+export const resolveStyleDependencies = (styleDeps, { packagePath, modulesPath }) => {
+  const nodeModulesDir = modulesPath || path.join(path.dirname(packagePath), 'node_modules');
   const resolveDependencyPath = createDependencyResolver(nodeModulesDir);
 
   // For each dep, we will resolve the listed style path
@@ -52,4 +53,4 @@ export const resolveStyleDependencies = (styleDeps, packageFilePath) => {
 
 export const loadDependencies = async resolvedDeps => Promise.all(resolvedDeps.map(dep => readFile(dep.path, { encoding: 'utf-8' })));
 
-export const stitchDependencies = async (outputPath, loadedDeps) => writeFile(outputPath, loadedDeps.reduce((acc, curr) => `${acc}\n\n${curr}`));
+export const stitchDependencies = async (loadedDeps, { outputPath }) => writeFile(outputPath, loadedDeps.reduce((acc, curr) => `${acc}\n\n${curr}`));

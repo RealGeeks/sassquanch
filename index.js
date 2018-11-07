@@ -1,13 +1,13 @@
 import { cli, deps } from './src';
 
 if (process.mainModule) {
-  const { outputPath, packagePath } = cli.parseOpts(); // eslint-disable-line
+  const opts = cli.parseOpts(); // eslint-disable-line
 
-  const packageInfo = deps.readPackage(packagePath);
+  const packageInfo = deps.readPackage(opts);
   const styleDeps = deps.getStyleDependencies(packageInfo);
-  const resolvedDeps = deps.resolveStyleDependencies(styleDeps, packagePath);
+  const resolvedDeps = deps.resolveStyleDependencies(styleDeps, opts);
 
-  deps.loadDependencies(resolvedDeps).then(data => deps.stitchDependencies(outputPath, data));
+  deps.loadDependencies(resolvedDeps).then(data => deps.stitchDependencies(data, opts));
 }
 else {
   console.log('required as a module');

@@ -1,5 +1,5 @@
 import program from 'commander';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
 import { fileExists, DIE } from './util';
 
 export const CLI = program
@@ -9,7 +9,8 @@ export const CLI = program
   .option(
     '-p, --package-path <path>',
     'Path to your package.json or a json file with your styleDependencies',
-  );
+  )
+  .option('-m, --modules-path <path>', 'Path to your `node_modules` folder');
 
 /**
  * Parses any input arguments and returns the commander program with the
@@ -30,6 +31,8 @@ export const parseOpts = () => {
     );
   }
 
+  const modulesPath = CLI.modulesPath ? resolve(CLI.modulesPath) : dirname(packagePath);
+
   const givenOutputPath = CLI.args && CLI.args.length > 1;
   const outputPath = givenOutputPath ? resolve(CLI.args[0]) : resolve('deps.scss');
 
@@ -40,5 +43,6 @@ export const parseOpts = () => {
   return {
     outputPath,
     packagePath,
+    modulesPath,
   };
 };
