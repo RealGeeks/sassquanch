@@ -1,5 +1,8 @@
-# Transpiled js
+# Build Artifacts
 dist/
+
+# Test fixtures
+test.package.json
 
 # Logs
 logs
