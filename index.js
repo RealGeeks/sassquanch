@@ -7,7 +7,7 @@ if (process.mainModule) {
   const styleDeps = deps.getStyleDependencies(packageInfo);
   const resolvedDeps = deps.resolveStyleDependencies(styleDeps, packagePath);
 
-  deps.loadDependencies(resolvedDeps).then(data => console.dir(data));
+  deps.loadDependencies(resolvedDeps).then(data => deps.stitchDependencies(outputPath, data));
 }
 else {
   console.log('required as a module');

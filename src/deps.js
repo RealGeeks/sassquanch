@@ -4,6 +4,7 @@ import { promisify } from 'util';
 import { DIE, fileExists } from './util';
 
 const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
 
 export const readPackage = filePath => JSON.parse(fs.readFileSync(filePath));
 export const getStyleDependencies = (packageInfo) => {
@@ -50,3 +51,5 @@ export const resolveStyleDependencies = (styleDeps, packageFilePath) => {
 };
 
 export const loadDependencies = async resolvedDeps => Promise.all(resolvedDeps.map(dep => readFile(dep.path, { encoding: 'utf-8' })));
+
+export const stitchDependencies = async (outputPath, loadedDeps) => writeFile(outputPath, loadedDeps.reduce((acc, curr) => `${acc}\n\n${curr}`));
