@@ -1,0 +1,1 @@
+module.exports = env => require(`./config/webpack.${env}.js`); // eslint-disable-line
