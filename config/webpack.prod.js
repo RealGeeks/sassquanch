@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack'); // eslint-disable-line
 
 const nodeExternals = require('webpack-node-externals'); // eslint-disable-line
 const CleanWebpackPlugin = require('clean-webpack-plugin'); // eslint-disable-line
@@ -7,6 +8,11 @@ const cleanWebpack = new CleanWebpackPlugin(
   [path.join(__dirname, '..', 'dist')],
   { root: path.join(__dirname, '..') },
 );
+
+const addShebang = new webpack.BannerPlugin({
+  banner: '#!/usr/bin/env node',
+  raw: true,
+});
 
 module.exports = {
   mode: 'production',
@@ -39,6 +45,7 @@ module.exports = {
   },
   plugins: [
     cleanWebpack,
+    addShebang,
   ],
   externals: [
     nodeExternals(),
