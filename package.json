@@ -12,7 +12,7 @@
     "release:master": "npx np patch --no-yarn --any-branch",
     "dev": "npm run build:dev -- --hot --watch",
     "pretty": "prettier-eslint --write \"./src/**/*.js\" \"index.js\"",
-    "prepare": "npm run build",
+    "prepare": "npm run build:prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
