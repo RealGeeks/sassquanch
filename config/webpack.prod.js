@@ -1,6 +1,12 @@
 const path = require('path');
 
 const nodeExternals = require('webpack-node-externals'); // eslint-disable-line
+const CleanWebpackPlugin = require('clean-webpack-plugin'); // eslint-disable-line
+
+const cleanWebpack = new CleanWebpackPlugin(
+  [path.join(__dirname, '..', 'dist')],
+  { root: path.join(__dirname, '..') },
+);
 
 module.exports = {
   mode: 'production',
@@ -31,6 +37,9 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    cleanWebpack,
+  ],
   externals: [
     nodeExternals(),
   ],
