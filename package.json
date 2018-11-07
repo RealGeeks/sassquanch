@@ -1,6 +1,6 @@
 {
   "name": "@realgeeks/sassquanch",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Squanch style dependencies and combine into one flat file",
   "main": "dist/bin.js",
   "scripts": {
