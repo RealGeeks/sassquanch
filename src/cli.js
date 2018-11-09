@@ -34,10 +34,10 @@ export const parseOpts = () => {
   }
 
   const modulesPath = CLI.modulesPath
-    ? resolve(CLI.modulesPath)
+    ? resolve(CLI.modulesPath, 'node_modules')
     : resolve(dirname(packagePath), 'node_modules');
 
-  const givenOutputPath = CLI.args && CLI.args.length > 1;
+  const givenOutputPath = CLI.args && CLI.args.length > 0;
   const outputPath = givenOutputPath ? resolve(CLI.args[0]) : resolve('deps.scss');
 
   if (!outputPath) {
