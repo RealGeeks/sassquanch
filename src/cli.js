@@ -2,12 +2,14 @@ import program from 'commander';
 import { resolve, dirname } from 'path';
 import { fileExists, DIE } from './util';
 
+import * as Package from '../package.json';
+
 export const CLI = program
   .name('sassquanch')
-  .version('0.0.3')
+  .version(Package.version)
   .usage('[options] <output-path>')
   .option(
-    '-p, --package-path <path>',
+    '-f, --package-file-path <path>',
     'Path to your package.json or a json file with your styleDependencies',
   )
   .option('-m, --modules-path <path>', 'Path to your `node_modules` folder');
@@ -21,7 +23,7 @@ export const CLI = program
 export const parseOpts = () => {
   CLI.parse(process.argv);
 
-  const packagePath = CLI.packagePath ? resolve(CLI.packagePath) : resolve('package.json');
+  const packagePath = CLI.packageFilePath ? resolve(CLI.packageFilePath) : resolve('package.json');
   const packageExists = fileExists(packagePath);
 
   if (!packageExists) {

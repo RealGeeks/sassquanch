@@ -3,12 +3,18 @@ Define style dependencies on files distributed through npm, resolve them,
 collect them, and combine them into a vendor import. 
 
 ## Usage
+```sh
+npx @realgeeks/sassquanch -f /path/to/your/package.json /path/to/output/file.scss
 ```
-npx @realgeeks/sassquanch -p /path/to/your/package.json /path/to/output/file.scss
+
+Or install globally:
+```sh
+npm install -g @realgeeks/sassquanch
+sassquanch -f /path/to/your/package.json /path/to/output/file.scss
 ```
 
 For help:
-```
+```sh
 npx @realgeeks/sassquanch --help
 ```
 
@@ -47,12 +53,12 @@ all of the contents into one single file.
 **NOTE:** It is not a requirement to include your `styleDependencies` within
 your `package.json`, it is merely a suggestion. If you wish to keep your style
 dependencies in a separate file, you may specify a path to a json file with the
-`-p` flag. Keep in mind, if you do this, you will also need to specify the
+`-f` flag. Keep in mind, if you do this, you will also need to specify the
 `node_modules` path with the `-m` flag, since by default we assume that the
 dependencies are within the `package.json` at the project root. An example of
 this could be: 
-```
-sassquanch -p /path/to/style_deps.json -m /path/to/project/root/ vendor.scss
+```sh
+sassquanch -f /path/to/style_deps.json -m /path/to/project/root/ vendor.scss
 ```
 
 ## Caveats
@@ -66,24 +72,24 @@ In the future, `sassquanch` may do this automatically.
 
 ## Development
 Transpile and watch for file changes:
-```
+```sh
 npm run dev
 ```
 
 Run the development bin:
-```
+```sh
 npm run start:dev
 
 # With flags
-npm run start:dev -- -p /path/to/package.json vendor.scss
+npm run start:dev -- -f /path/to/package.json vendor.scss
 ```
 
 Build the development version without watch mode:
-```
+```sh
 npm run build:dev
 ```
 
 Build the production version:
-```
+```sh
 npm run build
 ```
