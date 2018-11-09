@@ -33,7 +33,9 @@ export const parseOpts = () => {
     );
   }
 
-  const modulesPath = CLI.modulesPath ? resolve(CLI.modulesPath) : dirname(packagePath);
+  const modulesPath = CLI.modulesPath
+    ? resolve(CLI.modulesPath)
+    : resolve(dirname(packagePath), 'node_modules');
 
   const givenOutputPath = CLI.args && CLI.args.length > 1;
   const outputPath = givenOutputPath ? resolve(CLI.args[0]) : resolve('deps.scss');
